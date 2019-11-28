@@ -8,7 +8,7 @@ youtube video that inspired this project
 https://www.youtube.com/watch?v=oAHbLRjF0vo
 """
 
-import os
+import os, sys
 import pandas as pd
 from random import random
 
@@ -38,10 +38,35 @@ def simulate(width, row):
 # row is the total depth of the plane in number of seats
 # width is number of seats per side of the plane
 # total is (width + width) * row
-row = 30
-width = 3
-total = (width + width) * row
-assignments_df = pd.DataFrame(data, columns = ['passenger_name', ])
+total_rows = 30
+total_width = 6
+total_pass = width * rows
+
+# create list containing all individual seats
+seat_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+
+# read csv file into dataframe. Uses the total_pass to only read in the number
+# of total passengers for the simulation
+try:
+    assignments_df = pd.read_csv(full_path, nrows = total_pass)
+    print('opened file for passengers: ', file,'\n')
+
+except Exception as e:
+    print(e)
+    sys.exit('failed to read passenger names')
+
+# list of all possible assignements
+assignment_list = []
+
+# fills assignments list
+for i in range(0, total_width):
+    #print(seat_letters[i])
+    for j in range(1, (total_rows + 1)):
+        assignment_list.append([j,seat_letters[i]])
+
+# access index 0 from assignements df
+assignments_df['name'][0]
+#assignments_df['row'] = 
 
 # seat assignemts is a dictionary containing sequential numbers from 1..x
 # where x represents the highest numbered passenger on the plane.
