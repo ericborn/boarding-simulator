@@ -7,6 +7,9 @@ Created on Tue Nov 19 15:39:56 2019
 youtube video that inspired this project
 https://www.youtube.com/watch?v=oAHbLRjF0vo
 """
+
+import os
+import pandas as pd
 from random import random
 
 # setup function that takes number of seats per row and total rows
@@ -21,6 +24,10 @@ from random import random
 # next passenger cannot move forward until previous is seated
 # add time delay if passengers seat is blocked by other passengers already seated
 
+# setup file location
+path = r'C:\Users\Eric\Documents\GitHub\boarding-simulator'
+file = 'pass_names'
+full_path = os.path.join(path, file + '.csv')
 
 def simulate(width, row):
     self.width = width
@@ -34,6 +41,7 @@ def simulate(width, row):
 row = 30
 width = 3
 total = (width + width) * row
+assignments_df = pd.DataFrame(data, columns = ['passenger_name', ])
 
 # seat assignemts is a dictionary containing sequential numbers from 1..x
 # where x represents the highest numbered passenger on the plane.
@@ -42,4 +50,6 @@ seat_assignments = {}
 
 for i in range(1, total):
     print(i)
+    seat_assignments
     # assign key as i
+    
