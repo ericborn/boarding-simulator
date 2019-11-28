@@ -39,3 +39,7 @@ total = (width + width) * row
 # where x represents the highest numbered passenger on the plane.
 # assignents
 seat_assignments = {}
+
+for i in range(1, total):
+    print(i)
+    # assign key as i
