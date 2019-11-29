@@ -29,18 +29,18 @@ path = r'C:\Users\Eric\Documents\GitHub\boarding-simulator'
 file = 'pass_names'
 full_path = os.path.join(path, file + '.csv')
 
-def simulate(width, row):
-    self.width = width
-    self.row = row
-    self. time = time
-    return('Total time: ' + time)
+#def simulate(width, row):
+#    self.width = width
+#    self.row = row
+#    self. time = time
+#    return('Total time: ' + time)
 
 # row is the total depth of the plane in number of seats
 # width is number of seats per side of the plane
 # total is (width + width) * row
 total_rows = 30
 total_width = 6
-total_pass = width * rows
+total_pass = total_width * total_rows
 
 # create list containing all individual seats
 seat_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
@@ -58,23 +58,17 @@ except Exception as e:
 # list of all possible assignements
 assignment_list = []
 
-# fills assignments list
+# Repeats seat letters A through I and row number depending on the size
+# of the simulated plane
 for i in range(0, total_width):
-    #print(seat_letters[i])
     for j in range(1, (total_rows + 1)):
         assignment_list.append([j,seat_letters[i]])
 
-# access index 0 from assignements df
-assignments_df['name'][0]
-#assignments_df['row'] = 
+# assigns row and seat numbers into the dataframe
+for seat in range(0, assignments_df.shape[0]):
+    assignments_df['row'][seat] = assignment_list[seat][0]
+    assignments_df['seat'][seat] = assignment_list[seat][1]
 
-# seat assignemts is a dictionary containing sequential numbers from 1..x
-# where x represents the highest numbered passenger on the plane.
-# assignents
-seat_assignments = {}
-
-for i in range(1, total):
-    print(i)
-    seat_assignments
-    # assign key as i
-    
+# determine boarding order
+# introduce random delay per person
+# calculate delay if person in queue is forced to wait on person taking seat
