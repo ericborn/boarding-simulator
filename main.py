@@ -10,7 +10,7 @@ https://www.youtube.com/watch?v=oAHbLRjF0vo
 
 import os, sys
 import pandas as pd
-from random import random
+from random import randrange, sample
 
 # setup function that takes number of seats per row and total rows
 # optional method used to assign seats to passengers, can be random if not specified
@@ -30,6 +30,18 @@ file = 'pass_names'
 full_path = os.path.join(path, file + '.csv')
 
 #def simulate(width, row):
+## checks for rows between 20-35
+#if total_rows > 19 and total_rows < 36:
+#    pass
+#else:
+#    print('Please provide a row count between 20 and 35')
+
+## checks for width between 3-9
+#if total_width > 2 and total_width < 10:
+#    pass
+#else:
+#    print('Please provide a width between 3 and 9 seats')
+
 #    self.width = width
 #    self.row = row
 #    self. time = time
@@ -41,6 +53,9 @@ full_path = os.path.join(path, file + '.csv')
 total_rows = 30
 total_width = 6
 total_pass = total_width * total_rows
+
+# 35" for each row
+# human step average 30"
 
 # create list containing all individual seats
 seat_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
@@ -72,3 +87,7 @@ for seat in range(0, assignments_df.shape[0]):
 # determine boarding order
 # introduce random delay per person
 # calculate delay if person in queue is forced to wait on person taking seat
+
+# randomly sorts the entire seat order with no repeated elements
+order = sample(range(0, len(assignment_list)), len(assignment_list))
+
