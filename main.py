@@ -8,9 +8,10 @@ youtube video that inspired this project
 https://www.youtube.com/watch?v=oAHbLRjF0vo
 """
 
+import math
 import os, sys
 import pandas as pd
-from random import randrange, sample
+from random import uniform, sample
 
 # setup function that takes number of seats per row and total rows
 # optional method used to assign seats to passengers, can be random if not specified
@@ -56,6 +57,8 @@ total_pass = total_width * total_rows
 
 # 35" for each row
 # human step average 30"
+row_length = 35
+step_length = 30
 
 # create list containing all individual seats
 seat_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
@@ -91,3 +94,14 @@ for seat in range(0, assignments_df.shape[0]):
 # randomly sorts the entire seat order with no repeated elements
 order = sample(range(0, len(assignment_list)), len(assignment_list))
 
+total_time = 0
+
+step_duration = uniform(0.3, 1.5)
+
+# rounds up the number of steps needed to reach the seat position
+math.ceil(((assignments_df['row'][order[0]]) * row_length) / step_length)
+
+# iterate through all passengers and calculate time
+for people in order:
+    total_steps = (assignments_df['row'][order[people]]) * row_length
+    print(order[people])
