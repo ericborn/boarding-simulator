@@ -26,7 +26,7 @@ from random import uniform, sample
 # add time delay if passengers seat is blocked by other passengers already seated
 
 # setup file location
-path = r'C:\Users\Eric\Documents\GitHub\boarding-simulator'
+path = r'C:\Code projects\git projects\boarding-simulator'
 file = 'pass_names'
 full_path = os.path.join(path, file + '.csv')
 
@@ -97,7 +97,7 @@ order = sample(range(0, len(assignment_list)), len(assignment_list))
 
 time_list = []
 
-for i in range(0, 11):
+for i in range(0, 1001):
 
     # initlialize total time
     no_delay_time = 0
@@ -148,3 +148,18 @@ for i in range(0, 11):
     time_list.append([round((no_delay_time / 60),2), round((sitting_time / 60),2)])
     
 print(time_list)
+
+# initialize for average times
+no_delay_average = 0
+sitting_time_average = 0
+
+# add up each of the times for the respective
+for i in range(0, len(time_list)):
+    no_delay_average += time_list[i][0]
+    sitting_time_average += time_list[i][1]
+
+no_delay_average = round((no_delay_average / len(time_list)),2)
+sitting_time_average = round((sitting_time_average / len(time_list)),2)
+
+print('No delay average:', no_delay_average,
+      '\nSitting time average', sitting_time_average)
