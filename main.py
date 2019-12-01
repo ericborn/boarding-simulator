@@ -94,18 +94,57 @@ for seat in range(0, assignments_df.shape[0]):
 # randomly sorts the entire seat order with no repeated elements
 order = sample(range(0, len(assignment_list)), len(assignment_list))
 
-# initlialize total time
-total_time = 0
 
-# iterate through all passengers and calculate time
-for people in order:
-    # rounds up the number of steps needed to reach the seat position
-    total_steps = math.ceil(((assignments_df['row'][order[0]]) * row_length) / step_length)
+time_list = []
+
+for i in range(0, 11):
+
+    # initlialize total time
+    no_delay_time = 0
     
-    # random time it takes to step
-    step_duration = uniform(0.3, 1.5)
+    # iterate through all passengers and calculate time. Does nor include any delay
+    # for stowing/sitting or being queued behind someone
+    for people in order:
+        # rounds up the number of steps needed to reach the seat position
+        total_steps = math.ceil(((assignments_df['row'][order[people]]) * row_length) / step_length)
+        
+        # random time it takes to step
+        step_duration = uniform(0.3, 1.5)
+        
+        # total time added from each passenger
+        no_delay_time += round((total_steps * step_duration))
     
-    # total time added from each passenger
-    total_time += round((total_steps * step_duration))
+    # print time with no deplay's
+    #print(round((no_delay_time / 60),2))
     
-print(round((total_time / 60),2))
+    # stowing/sitting delay
+    sitting_time = 0
+    
+    # delayed time
+    for people in order:
+        # rounds up the number of steps needed to reach the seat position
+        total_steps = math.ceil(((assignments_df['row'][order[people]]) * row_length) / step_length)
+        
+        # random time it takes to step
+        step_duration = uniform(0.3, 1.5)
+        
+        if assignments_df['seat'][order[people]] == 'C' or assignments_df['seat'][order[people]] == 'F':
+            # random time for stowing/sitting
+            sit_duration = uniform(0.5, 2)
+            
+        if assignments_df['seat'][order[people]] == 'B' or assignments_df['seat'][order[people]] == 'E':
+            # random time for stowing/sitting
+            sit_duration = uniform(0.3, 1.5)
+    
+        if assignments_df['seat'][order[people]] == 'A' or assignments_df['seat'][order[people]] == 'D':
+            # random time for stowing/sitting
+            sit_duration = uniform(0.2, 1.0)
+            
+        # total time added from each passenger
+        sitting_time += round(((total_steps * step_duration) + sit_duration))
+        
+    # print time with no deplay's
+    #print(round((sitting_time / 60),2))
+    time_list.append([round((no_delay_time / 60),2), round((sitting_time / 60),2)])
+    
+print(time_list)
