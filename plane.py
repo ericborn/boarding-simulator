@@ -51,17 +51,17 @@ aisle_start = [115, 180]
 # bottom left edge of seats 115, 250
 for i in range(1, SEAT_ROWS + 1):
     seat_x = (i * 30) + 100
-    
+
     # starting queue x coords
     start_x = 115
     for j in range(1, SEATS_PER_ROW + 1):
-        
+
         # starting queue y coords
         start_y = (j * 12.5) + 250
         # top 3 rows of seats
         if j < 4:
             seat_y = (j * 20) + 100
-        
+
         # bottom 3 rows of seats with a gap of 20 pixels
         if j > 3:
             seat_y = (j * 20) + 120
@@ -77,7 +77,7 @@ clock = pygame.time.Clock()
 
 class Passenger(Seat):
     
-    # overrides the color and size
+    # overrides the color and size from Seat
     def __init__(self):
         Seat.__init__(self, (255, 145, 25), 10)
 
@@ -100,9 +100,9 @@ def draw_environment(seat_list, end_list):
             seat = seat_dict[seat_id]
             
             # iterates through the coords list using seat_id as the index
-            new_x = seat_coords[seat_id][0]
-            new_y = seat_coords[seat_id][1]
-            pygame.draw.rect(game_display, seat.color, (new_x, new_y,
+            seat_x = seat_coords[seat_id][0]
+            seat_y = seat_coords[seat_id][1]
+            pygame.draw.rect(game_display, seat.color, (seat_x, seat_y,
                                                         seat.size, seat.size))
 
     # iterates creating seats for each passed in from the seat_list
@@ -111,9 +111,9 @@ def draw_environment(seat_list, end_list):
             passenger = pass_dict[pass_id]
             
             # iterates through the coords list using seat_id as the index
-            new_x = start_coords[pass_id][0]
-            new_y = start_coords[pass_id][1]
-            pygame.draw.rect(game_display, passenger.color, (new_x, new_y,
+            pass_x = start_coords[pass_id][0]
+            pass_y = start_coords[pass_id][1]
+            pygame.draw.rect(game_display, passenger.color, (pass_x, pass_y,
                                                              passenger.size,
                                                              passenger.size))
             
