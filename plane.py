@@ -35,44 +35,62 @@ LIGHT_BLUE = (90, 200, 215)
 # test coords
 #coords = [[50, 50], [50, 100], [50, 150], [100, 50], [100, 100], [100, 150]]
 
-# creates a list to store the coordinates for the seats
+# creates a list to store the coordinates for the seats, where passengers
+# will end up and the start where they will line up
 seat_coords = []
-passenger_coords = []
+end_coords = []
+start_coords = []
+
+# top left of aisle
+aisle_start = [115, 180]
 
 # iterates through the total number of rows and seats per row to generate the 
-# coordinates where the seat will be drawn
+# coordinates where the seat will be drawn, the ending coords the passengers
+# will end up and the start coords where they will be in the queue entering
+# the plane.
+# bottom left edge of seats 115, 250
 for i in range(1, SEAT_ROWS + 1):
-    x = (i * 30) + 100
+    seat_x = (i * 30) + 100
+    
+    # starting queue x coords
+    start_x = 115
     for j in range(1, SEATS_PER_ROW + 1):
         
+        # starting queue y coords
+        start_y = (j * 12.5) + 250
         # top 3 rows of seats
         if j < 4:
-            y = (j * 20) + 100
+            seat_y = (j * 20) + 100
         
         # bottom 3 rows of seats with a gap of 20 pixels
         if j > 3:
-            y = (j * 20) + 120
-        #print(x, y)
-        seat_coords.append([x, y])
-        passenger_coords.append([x+2.5, y+3.1])
-        
-        # top left of aisle
-        #115, 180
-        
-        # bottom left edge of seats
-        #115, 250
+            seat_y = (j * 20) + 120
+
+        # appends the coords to each list
+        seat_coords.append([seat_x, seat_y])
+        end_coords.append([seat_x + 2.5, seat_x + 3.1])
+        start_coords.append([start_x, start_y])
 
 game_display = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Boarding Simulator')
 clock = pygame.time.Clock()
 
 class Passenger(Seat):
-    pass
+    
+    # overrides the color and size
+    def __init__(self):
+        Seat.__init__(self, (255, 145, 25), 10)
 
+    # function that makes a check, if another passenger is in the space
+    # where it needs to move next, the current passenger stops
+    def queue(self, other_passenger):
+        if other_passenger.present == True:
+            self.stop = True
 
+#def is_touching(self, other_passenger):
 
 # creates the visual environment
-def draw_environment(seat_list, pass_list):
+def draw_environment(seat_list, end_list):
     # fills the background with white
     game_display.fill(GREY)
     
@@ -88,13 +106,13 @@ def draw_environment(seat_list, pass_list):
                                                         seat.size, seat.size))
 
     # iterates creating seats for each passed in from the seat_list
-    for pass_dict in pass_list:
+    for pass_dict in end_list:
         for pass_id in pass_dict:
             passenger = pass_dict[pass_id]
             
             # iterates through the coords list using seat_id as the index
-            new_x = passenger_coords[pass_id][0]
-            new_y = passenger_coords[pass_id][1]
+            new_x = start_coords[pass_id][0]
+            new_y = start_coords[pass_id][1]
             pygame.draw.rect(game_display, passenger.color, (new_x, new_y,
                                                              passenger.size,
                                                              passenger.size))
@@ -108,7 +126,7 @@ def draw_environment(seat_list, pass_list):
 def main():
     #blue_seat = Seat(color=BLUE)
     blue_seats = dict(enumerate([Seat(BLUE, 15) for i in range(TOTAL_SEATS)]))
-    passengers = dict(enumerate([Passenger(ORANGE, 10) for i in range(TOTAL_SEATS)]))
+    passengers = dict(enumerate([Passenger() for i in range(TOTAL_SEATS)]))
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
