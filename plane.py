@@ -13,13 +13,31 @@ import pygame
 SEAT_ROWS = 30
 SEATS_PER_ROW = 6
 TOTAL_SEATS = SEAT_ROWS * SEATS_PER_ROW
+#TOTAL_SEATS = 80
 
-WIDTH = 800
-HEIGHT = 600
+# defines the drawing suface size and four fixed RGB colors
+# white, black, red and blue
+WIDTH = 1920
+HEIGHT = 800
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
+
+# test coords
+#coords = [[50, 50], [50, 100], [50, 150], [100, 50], [100, 100], [100, 150]]
+
+# creates a list to store the coordinates for the seats
+coords = []
+
+# iterates through the total number of rows and seats per row multiplying
+# each by 50 to move the pixels for the seats 50 apart
+for i in range(1, SEAT_ROWS + 1):
+    x = i * 30
+    for j in range(1, SEATS_PER_ROW + 1):
+        y = j * 20
+        #print(x, y)
+        coords.append([x, y])
 
 game_display = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Boarding Simulator')
@@ -52,8 +70,10 @@ def draw_environment(seat_list):
     for seat_dict in seat_list:
         for seat_id in seat_dict:
             seat = seat_dict[seat_id]
-            new_x = seat.x * seat_id
-            new_y = seat.x * seat_id
+            #new_x = seat.x * seat_id
+            #new_y = seat.x * seat_id
+            new_x = coords[seat_id][0]
+            new_y = coords[seat_id][1]
             pygame.draw.rect(game_display, seat.color, (new_x, new_y, seat.size, seat.size))
 
     # tuple represents x, y, width, height
@@ -70,7 +90,7 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        draw_environment(blue_seats)
+        draw_environment([blue_seats])
         clock.tick(60)
 
 if __name__ == '__main__':
