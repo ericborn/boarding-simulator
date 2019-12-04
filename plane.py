@@ -94,20 +94,20 @@ class Passenger(Seat):
         if other_passenger.present == True:
             self.stop = True
 
-    def move(self):
-        self.move_on_x = randrange(20, 50)
-        self.move_on_y = randrange(10, 32)
-        self.x += self.move_on_x
-        self.y += self.move_on_y
-    
-    # random time it takes to step
-#    def move_x(self):
+#    def move(self):
 #        self.move_on_x = randrange(0, 2)
-#        self.x += self.move_on_x
-#        
-#    def move_y(self):
 #        self.move_on_y = randrange(0, 2)
+#        self.x += self.move_on_x
 #        self.y += self.move_on_y
+    
+    # random step distance
+    def move_x(self):
+        self.move_on_x = randrange(0, 2)
+        self.x += self.move_on_x
+        
+    def move_y(self):
+        self.move_on_y = randrange(0, 2)
+        self.y += self.move_on_y
         
 #def is_touching(self, other_passenger):
 
@@ -134,14 +134,15 @@ def draw_environment(seat_list, start_list):
         for pass_id in pass_dict:
             passenger = pass_dict[pass_id]
             
+            # TODO
+            # THIS IS CAUSING THE PASSENGERS TO BECOME FIXED IN PLACE
+            # NEED A NEW METHOD TO ASSIGN THEM TO THEIR LOCATION BEFORE STARTING THE MOTION
             # iterates through the coords list using pass_id as the index
 #            pass_x = start_coords[pass_id][0]
 #            pass_y = start_coords[pass_id][1]
             
-            #TODO
-            # MAY BE CAUSING THE PASSENGERS TO BE FIXED IN PLACE AND NOT MOVING
-            passenger.x = start_coords[pass_id][0]
-            passenger.y = start_coords[pass_id][1]
+#            passenger.x = start_coords[pass_id][0]
+#            passenger.y = start_coords[pass_id][1]
             
             #print(pass_x, pass_y)
             
@@ -150,9 +151,10 @@ def draw_environment(seat_list, start_list):
                                                              passenger.y,
                                                              passenger.size,
                                                              passenger.size))
-#            passenger.move_x()
-#            passenger.move_y()
-            passenger.move()
+            if 
+            passenger.move_x()
+            passenger.move_y()
+#            passenger.move()
 
     # updates the game display, drawing all of the objects 
     pygame.display.update()
