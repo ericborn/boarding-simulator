@@ -8,6 +8,7 @@ the passengers moving into the plane and taking their seats
 """
 import pygame
 from seat import Seat
+from random import uniform #, sample
 
 # define the rows, seats per row and calculate total seats
 SEAT_ROWS = 30
@@ -45,15 +46,13 @@ start_coords = []
 aisle_start = [115, 180]
 
 # iterates through the total number of rows and seats per row to generate the 
-# coordinates where the seat will be drawn, the ending coords the passengers
-# will end up and the start coords where they will be in the queue entering
-# the plane.
+# coordinates where the seat will be drawn, the ending coords represents the 
+# locations the passengers will end up
+
 # bottom left edge of seats 115, 250
 for i in range(1, SEAT_ROWS + 1):
     seat_x = (i * 30) + 100
-
-
-        
+  
     for j in range(1, SEATS_PER_ROW + 1):        
         # top 3 rows of seats
         if j < 4:
@@ -66,7 +65,9 @@ for i in range(1, SEAT_ROWS + 1):
         # appends the coords to each list
         seat_coords.append([seat_x, seat_y])
         end_coords.append([seat_x + 2.5, seat_x + 3.1])
- 
+
+# loop below generates the start coords which represents where the passengers  
+# will be in the queue entering the plane.
 # starting queue x coords
 start_x = 115  
      
@@ -92,6 +93,15 @@ class Passenger(Seat):
         if other_passenger.present == True:
             self.stop = True
 
+    # random time it takes to step
+    def move_x(self):
+        self.move_x = uniform(0.3, 1.5)
+        self.x += self.move_x
+        
+    def move_y(self):
+        self.move_y = uniform(0.3, 1.5)
+        self.y += self.move_y
+        
 #def is_touching(self, other_passenger):
 
 # creates the visual environment
@@ -127,6 +137,7 @@ def draw_environment(seat_list, start_list):
             pygame.draw.rect(game_display, passenger.color, (pass_x, pass_y,
                                                              passenger.size,
                                                              passenger.size))
+            passenger.move()
 
     # updates the game display, drawing all of the objects 
     pygame.display.update()
