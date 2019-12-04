@@ -8,7 +8,7 @@ the passengers moving into the plane and taking their seats
 """
 import pygame
 from seat import Seat
-from random import uniform #, sample
+from random import uniform, randrange #, sample
 
 # define the rows, seats per row and calculate total seats
 SEAT_ROWS = 30
@@ -86,21 +86,28 @@ class Passenger(Seat):
     # overrides the color and size from Seat
     def __init__(self):
         Seat.__init__(self, (255, 145, 25), 10)
-
+        self.x = 0
+        self.y = 0
     # function that makes a check, if another passenger is in the space
     # where it needs to move next, the current passenger stops
     def queue(self, other_passenger):
         if other_passenger.present == True:
             self.stop = True
 
+    def move(self):
+        self.move_on_x = randrange(20, 50)
+        self.move_on_y = randrange(10, 32)
+        self.x += self.move_on_x
+        self.y += self.move_on_y
+    
     # random time it takes to step
-    def move_x(self):
-        self.move_x = uniform(0.3, 1.5)
-        self.x += self.move_x
-        
-    def move_y(self):
-        self.move_y = uniform(0.3, 1.5)
-        self.y += self.move_y
+#    def move_x(self):
+#        self.move_on_x = randrange(0, 2)
+#        self.x += self.move_on_x
+#        
+#    def move_y(self):
+#        self.move_on_y = randrange(0, 2)
+#        self.y += self.move_on_y
         
 #def is_touching(self, other_passenger):
 
@@ -127,16 +134,24 @@ def draw_environment(seat_list, start_list):
         for pass_id in pass_dict:
             passenger = pass_dict[pass_id]
             
-            # iterates through the coords list using seat_id as the index
-            pass_x = start_coords[pass_id][0]
-            pass_y = start_coords[pass_id][1]
+            # iterates through the coords list using pass_id as the index
+#            pass_x = start_coords[pass_id][0]
+#            pass_y = start_coords[pass_id][1]
+            
+            #TODO
+            # MAY BE CAUSING THE PASSENGERS TO BE FIXED IN PLACE AND NOT MOVING
+            passenger.x = start_coords[pass_id][0]
+            passenger.y = start_coords[pass_id][1]
             
             #print(pass_x, pass_y)
             
             # tuple represents x, y, width, height
-            pygame.draw.rect(game_display, passenger.color, (pass_x, pass_y,
+            pygame.draw.rect(game_display, passenger.color, (passenger.x,
+                                                             passenger.y,
                                                              passenger.size,
                                                              passenger.size))
+#            passenger.move_x()
+#            passenger.move_y()
             passenger.move()
 
     # updates the game display, drawing all of the objects 
