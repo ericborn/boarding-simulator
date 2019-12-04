@@ -54,6 +54,7 @@ for i in range(1, SEAT_ROWS + 1):
 
     # starting queue x coords
     start_x = 115
+    
     for j in range(1, SEATS_PER_ROW + 1):
 
         # starting queue y coords
@@ -90,7 +91,7 @@ class Passenger(Seat):
 #def is_touching(self, other_passenger):
 
 # creates the visual environment
-def draw_environment(seat_list, end_list):
+def draw_environment(seat_list, start_list):
     # fills the background with white
     game_display.fill(GREY)
     
@@ -102,24 +103,27 @@ def draw_environment(seat_list, end_list):
             # iterates through the coords list using seat_id as the index
             seat_x = seat_coords[seat_id][0]
             seat_y = seat_coords[seat_id][1]
+            
+            # tuple represents x, y, width, height
             pygame.draw.rect(game_display, seat.color, (seat_x, seat_y,
                                                         seat.size, seat.size))
 
-    # iterates creating seats for each passed in from the seat_list
-    for pass_dict in end_list:
+    # iterates creating passengers in their queue position
+    for pass_dict in start_list:
         for pass_id in pass_dict:
             passenger = pass_dict[pass_id]
             
             # iterates through the coords list using seat_id as the index
             pass_x = start_coords[pass_id][0]
             pass_y = start_coords[pass_id][1]
+            
+            #print(pass_x, pass_y)
+            
+            # tuple represents x, y, width, height
             pygame.draw.rect(game_display, passenger.color, (pass_x, pass_y,
                                                              passenger.size,
                                                              passenger.size))
-            
-    # tuple represents x, y, width, height
-    #pygame.draw.rect(game_display, seat.color, (seat.x, seat.y, seat.size, seat.size))
-    
+
     # updates the game display, drawing all of the objects 
     pygame.display.update()
 
