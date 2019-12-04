@@ -52,13 +52,9 @@ aisle_start = [115, 180]
 for i in range(1, SEAT_ROWS + 1):
     seat_x = (i * 30) + 100
 
-    # starting queue x coords
-    start_x = 115
-    
-    for j in range(1, SEATS_PER_ROW + 1):
 
-        # starting queue y coords
-        start_y = (j * 12.5) + 250
+        
+    for j in range(1, SEATS_PER_ROW + 1):        
         # top 3 rows of seats
         if j < 4:
             seat_y = (j * 20) + 100
@@ -70,7 +66,15 @@ for i in range(1, SEAT_ROWS + 1):
         # appends the coords to each list
         seat_coords.append([seat_x, seat_y])
         end_coords.append([seat_x + 2.5, seat_x + 3.1])
-        start_coords.append([start_x, start_y])
+ 
+# starting queue x coords
+start_x = 115  
+     
+for k in range(1, TOTAL_SEATS + 1):
+    #print(k)
+    # starting queue y coords
+    start_y = (k * 12.5) + 250
+    start_coords.append([start_x, start_y])
 
 game_display = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Boarding Simulator')
@@ -131,6 +135,7 @@ def main():
     #blue_seat = Seat(color=BLUE)
     blue_seats = dict(enumerate([Seat(BLUE, 15) for i in range(TOTAL_SEATS)]))
     passengers = dict(enumerate([Passenger() for i in range(TOTAL_SEATS)]))
+    #print(passengers)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
