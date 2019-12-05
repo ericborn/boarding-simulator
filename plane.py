@@ -10,6 +10,8 @@ import pygame
 from seat import Seat
 from random import uniform, randrange #, sample
 
+pygame.init()
+
 # define the rows, seats per row and calculate total seats
 SEAT_ROWS = 30
 SEATS_PER_ROW = 6
@@ -26,6 +28,7 @@ TOTAL_SEATS = SEAT_ROWS * SEATS_PER_ROW
 WIDTH = SEAT_ROWS * 40
 HEIGHT = SEATS_PER_ROW * 65
 
+# set RGB colors
 GREY = (200, 200, 200)
 BLACK = (0, 0, 0)
 RED = (215, 0, 0)
@@ -44,6 +47,10 @@ start_coords = []
 
 # top left of aisle
 aisle_start = [115, 180]
+
+start_time = None
+
+FONT = pygame.font.SysFont("Sans", 20)
 
 # iterates through the total number of rows and seats per row to generate the 
 # coordinates where the seat will be drawn, the ending coords represents the 
@@ -112,7 +119,7 @@ class Passenger(Seat):
 #def is_touching(self, other_passenger):
 
 # creates the visual environment
-def draw_environment(seat_list, start_list):
+def draw_environment(seat_list, pass_list):
     # fills the background with white
     game_display.fill(GREY)
     
@@ -130,7 +137,7 @@ def draw_environment(seat_list, start_list):
                                                         seat.size, seat.size))
 
     # iterates creating passengers in their queue position
-    for pass_dict in start_list:
+    for pass_dict in pass_list:
         for pass_id in pass_dict:
             passenger = pass_dict[pass_id]
             
@@ -171,7 +178,17 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            start_time = pygame.time.get_ticks()
+          
+        # timer example
+        #https://stackoverflow.com/questions/30720665/countdown-timer-in-pygame
+        if start_time:
+            time_since_enter = pygame.time.get_ticks() - start_time
+            message = 'Milliseconds since enter: ' + str(time_since_enter)
+            game_display.blit(FONT.render(message, True, BLACK), (20, 20))
+        
         draw_environment([blue_seats], [passengers])
+        pygame.display.flip()
         clock.tick(60)
 
 if __name__ == '__main__':
