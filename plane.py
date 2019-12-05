@@ -86,8 +86,8 @@ class Passenger(Seat):
     # overrides the color and size from Seat
     def __init__(self):
         Seat.__init__(self, (255, 145, 25), 10)
-        self.x = 0
-        self.y = 0
+        self.x = 115
+        self.y = 260
     # function that makes a check, if another passenger is in the space
     # where it needs to move next, the current passenger stops
     def queue(self, other_passenger):
@@ -106,7 +106,7 @@ class Passenger(Seat):
         self.x += self.move_on_x
         
     def move_y(self):
-        self.move_on_y = randrange(0, 2)
+        self.move_on_y = randrange(-2, 0)
         self.y += self.move_on_y
         
 #def is_touching(self, other_passenger):
@@ -151,9 +151,11 @@ def draw_environment(seat_list, start_list):
                                                              passenger.y,
                                                              passenger.size,
                                                              passenger.size))
-            if 
-            passenger.move_x()
-            passenger.move_y()
+            if passenger.y < 180:
+                passenger.move_x()
+            if passenger.y > 180:
+                passenger.move_y()
+#            passenger.move_y()
 #            passenger.move()
 
     # updates the game display, drawing all of the objects 
