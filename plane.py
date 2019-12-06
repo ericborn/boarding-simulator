@@ -76,7 +76,7 @@ for i in range(1, SEAT_ROWS + 1):
 # loop below generates the start coords which represents where the passengers  
 # will be in the queue entering the plane.
 # starting queue x coords
-start_x = 115  
+start_x = 100
      
 for k in range(1, TOTAL_SEATS + 1):
     #print(k)
@@ -93,7 +93,7 @@ class Passenger(Seat):
     # overrides the color and size from Seat
     def __init__(self):
         Seat.__init__(self, (255, 145, 25), 10)
-        self.x = 115
+        self.x = 100
         self.y = 260
     # function that makes a check, if another passenger is in the space
     # where it needs to move next, the current passenger stops
@@ -158,6 +158,8 @@ def draw_environment(seat_list, pass_list):
                                                              passenger.y,
                                                              passenger.size,
                                                              passenger.size))
+            if passenger.x == 100:
+                passenger.move_x()
             if passenger.y < 180:
                 passenger.move_x()
             if passenger.y > 180:
